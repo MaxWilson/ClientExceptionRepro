@@ -5,18 +5,19 @@
     "env": {
       "common_workspaceFolder" : "${workspaceFolder}",
       // Base product related parameters. No need to setup any Certificate/AAD/HqConfigurationFile related parameters for Self-Host mode.
-      "baseProduct_Port" : "",
-      "baseProduct_AsyncClientCertFullPath" : "store:///My/LocalMachine?FindByThumbprint=",
-      "baseProduct_SslCertFullPath" : "store:///My/LocalMachine?FindByThumbprint=",
-      "baseProduct_RetailServerCertFullPath" : "store:///My/LocalMachine?FindByThumbprint=",
-      "baseProduct_AsyncClientAadClientId" : "",
-      "baseProduct_RetailServerAadClientId" : "",
-      "baseProduct_CposAadClientId" : "",
-      "baseProduct_RetailServerAadResourceId" : "",
-      "baseProduct_Config" : "",
+      "baseProduct_Port" : "8083",
+      "baseProduct_AsyncClientCertFullPath" : "store:///My/LocalMachine?FindByThumbprint=9CAB32DFA0BCF95B29C4C99FCD8696BA5600C810",
+      "baseProduct_SslCertFullPath" : "store:///My/LocalMachine?FindByThumbprint=9CAB32DFA0BCF95B29C4C99FCD8696BA5600C810",
+      "baseProduct_RetailServerCertFullPath" : "store:///My/LocalMachine?FindByThumbprint=9CAB32DFA0BCF95B29C4C99FCD8696BA5600C810",
+      // You may need to generate your own certificate and change the thumbprint
+      "baseProduct_AsyncClientAadClientId" : "119f24b1-0387-46c3-bbac-4dc98a55e3ff",
+      "baseProduct_RetailServerAadClientId" : "119f24b1-0387-46c3-bbac-4dc98a55e3ff",
+      "baseProduct_CposAadClientId" : "be350e08-70a3-44ad-ae6b-4eea87b994cf",
+      "baseProduct_RetailServerAadResourceId" : "api://119f24b1-0387-46c3-bbac-4dc98a55e3ff",
+      "baseProduct_Config" : "config.xml",
       // Base product deployment type
       // set it to "false" to install the RetailServer on IIS
-      "baseProduct_UseSelfHost" : "true"
+      "baseProduct_UseSelfHost" : "false"
     }
   },
   "tasks": [

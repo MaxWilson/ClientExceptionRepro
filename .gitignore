@@ -121,3 +121,4 @@ devDependencies/
 
 # Ignore generated nuget packages
 *.nupkg
+Download
