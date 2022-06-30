@@ -11,7 +11,6 @@ namespace MSE.D365.RetailServer.Extensions
     using Microsoft.Dynamics.Commerce.Runtime.DataModel;
     using Microsoft.Dynamics.Commerce.Runtime.Hosting.Contracts;
 
-    [ComVisible(false)]
     [BindEntity(typeof(KitLineItem))]
     [RoutePrefix("KitLineItem")]
     public class KitLineItemController : IController
