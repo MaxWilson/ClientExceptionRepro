@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema  targetNamespace="http://schemas.datacontract.org/2004/07/LOE.Common.Entities.V3_1"
+            xmlns:fev3="http://schemas.datacontract.org/2004/07/LOE.Common.Entities.V3_1"
+            xmlns:fev2="http://schemas.datacontract.org/2004/07/Entities"
+            xmlns:fiv3="http://schemas.datacontract.org/2004/07/LOE.Common.Contracts.Fulfillment.V3"
+            xmlns:mswt="http://microsoft.com/wsdl/types/"
+            xmlns:sa="http://schemas.microsoft.com/2003/10/Serialization/Arrays"
+            xmlns:xs="http://www.w3.org/2001/XMLSchema"
+            elementFormDefault="qualified">
+
+  <xs:annotation>
+    <xs:documentation xml:lang="en">
+      Definition of the one Catalog V3.1 entity: CatalogResult
+    </xs:documentation>
+  </xs:annotation>
+
+  <!--************************************-->
+  <!--            CatalogResult           -->
+  <!--************************************-->
+
+  <xs:import namespace="http://schemas.microsoft.com/2003/10/Serialization/Arrays" schemaLocation="Arrays.xsd"/>
+  <xs:import namespace="http://microsoft.com/wsdl/types/" schemaLocation="guid.xsd"/>
+  <xs:import namespace="http://schemas.datacontract.org/2004/07/LOE.Common.Contracts.Fulfillment.V3" schemaLocation="CommonV3.xsd"/>
+  <xs:import namespace="http://schemas.datacontract.org/2004/07/Entities" schemaLocation="Entities.xsd"/>
+
+  <xs:element name="CatalogResult" type="fev3:CatalogResult"/>
+
+  <xs:complexType name="CatalogResult">
+    <xs:sequence>
+      <xs:element minOccurs="1" maxOccurs="1" nillable="false" name="CatalogEntries" type="fev3:CatalogEntries"/>
+      <xs:element minOccurs="1" maxOccurs="1" nillable="false" name="CurrentPageNum" type="xs:integer"/>
+      <xs:element minOccurs="1" maxOccurs="1" nillable="false" name="TotalPages" type="xs:integer"/>
+      <xs:element minOccurs="1" maxOccurs="1" nillable="false" name="UtcUpdatesFrom" type="xs:dateTime"/>
+      <xs:element minOccurs="1" maxOccurs="1" nillable="false" name="UtcUpdatesTo" type="xs:dateTime"/>
+      <xs:element minOccurs="0" maxOccurs="1" nillable="false" name="Extension" type="fev3:CatalogResultExtension"/>
+      <xs:any minOccurs="0" maxOccurs="unbounded" namespace="##other" processContents="lax"/>
+    </xs:sequence>
+    <xs:anyAttribute namespace="##any" processContents="lax"/>
+  </xs:complexType>
+
+  <xs:complexType name="CatalogEntries">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" nillable="false" name="CatalogChange" type="fev3:CatalogChange"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="CatalogChange">
+    <xs:sequence>
+      <xs:element minOccurs="1" maxOccurs="1" nillable="false" name="CatalogMeta" type="fev3:ProductCatalogMeta"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="ProductCatalogMeta">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" nillable="true"  name="BundledItems" type="fev2:BundledItems"/>
+      <xs:element minOccurs="1" maxOccurs="1" nillable="true"  name="Description" type="xs:string"/>
+      <xs:element minOccurs="1" maxOccurs="1" nillable="false" name="FulfillmentType" type="xs:int"/>
+      <xs:element minOccurs="1" maxOccurs="1" nillable="true"  name="FullTitle" type="xs:string"/>
+      <xs:element minOccurs="1" maxOccurs="1" nillable="true"  name="Pricing" type="fev3:Pricing"/>
+      <xs:element minOccurs="0" maxOccurs="1" nillable="true"  name="RelatedProducts" type="fev2:RelatedProducts"/>
+      <xs:element minOccurs="1" maxOccurs="1" nillable="true"  name="Sku" type="fiv3:SKU"/>
+      <xs:element minOccurs="1" maxOccurs="1" nillable="true"  name="ReturnType" type="xs:string"/>
+      <xs:element minOccurs="0" maxOccurs="1" nillable="false" name="ExtendedMetadata" type="fev3:ExtendedMetadata"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="GameCatalogMeta">
+    <xs:complexContent mixed="false">
+      <xs:extension base="fev3:ProductCatalogMeta">
+        <xs:sequence>
+          <xs:element minOccurs="1" maxOccurs="1" nillable="true"  name="Developer" type="xs:string"/>
+          <xs:element minOccurs="1" maxOccurs="1" nillable="true"  name="GamePurchaseDownloadUrl" type="fev2:GamePurchaseDownloadUrl"/>
+          <xs:element minOccurs="1" maxOccurs="1" nillable="true"  name="GameRating" type="fev2:Rating"/>
+          <xs:element minOccurs="1" maxOccurs="1" nillable="true"  name="OfflineCapabilities" type="fev2:OfflineCapabilities"/>
+          <xs:element minOccurs="1" maxOccurs="1" nillable="true"  name="OnlineCapabilities" type="fev2:OnlineCapabilities"/>
+          <xs:element minOccurs="1" maxOccurs="1" nillable="true"  name="ProductImages" type="fev2:ProductImages"/>
+          <xs:element minOccurs="1" maxOccurs="1" nillable="true"  name="ProductVideos" type="fev2:ProductVideos" />
+          <xs:element minOccurs="1" maxOccurs="1" nillable="true"  name="Publisher" type="xs:string"/>
+          <xs:element minOccurs="1" maxOccurs="1" nillable="false" name="ReleaseDate" type="xs:dateTime"/>
+          <xs:element minOccurs="0" maxOccurs="1" nillable="false" name="Extension" type="fev3:GameCatalogMetaExtension"/>
+          <xs:any minOccurs="0" maxOccurs="unbounded" namespace="##other" processContents="lax"/>
+        </xs:sequence>
+        <xs:anyAttribute namespace="##any" processContents="lax"/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="Pricing">
+    <xs:sequence>
+      <xs:element minOccurs="1" maxOccurs="unbounded" nillable="false" name="Price" type="fev3:Price"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="Price">
+    <xs:sequence>
+      <xs:element minOccurs="1" maxOccurs="1" nillable="false" name="Amount" type="xs:decimal" />
+      <xs:element minOccurs="1" maxOccurs="1" nillable="false" name="Currency" type="fiv3:ISOCurrencyCode"/>
+      <xs:element minOccurs="1" maxOccurs="1" nillable="false" name="PriceType" type="xs:string">
+        <xs:annotation><xs:documentation>
+          One of possible types as specified by 'fev2:PriceType' enum.
+        </xs:documentation></xs:annotation>
+      </xs:element>
+      <xs:element minOccurs="1" maxOccurs="1" nillable="false" name="ValidFrom" type="xs:dateTime"/>
+      <xs:element minOccurs="1" maxOccurs="1" nillable="false" name="ValidTo" type="xs:dateTime"/>
+      <xs:element minOccurs="0" maxOccurs="1" nillable="false" name="Extension" type="fev3:PriceExtension"/>
+      <xs:any minOccurs="0" maxOccurs="unbounded" namespace="##other" processContents="lax"/>
+    </xs:sequence>
+    <xs:anyAttribute namespace="##any" processContents="lax"/>
+  </xs:complexType>
+
+  <xs:complexType name="CatalogResultExtension">
+    <xs:sequence>
+      <xs:any minOccurs="1" maxOccurs="unbounded" namespace="##targetNamespace" processContents="lax"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="GameCatalogMetaExtension">
+    <xs:sequence>
+      <xs:any minOccurs="1" maxOccurs="unbounded" namespace="##targetNamespace" processContents="lax"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="ExtendedMetadata">
+    <xs:sequence>
+      <xs:any minOccurs="1" maxOccurs="unbounded" namespace="##targetNamespace" processContents="lax"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="PriceExtension">
+    <xs:sequence>
+      <xs:any minOccurs="1" maxOccurs="unbounded" namespace="##targetNamespace" processContents="lax"/>
+    </xs:sequence>
+  </xs:complexType>
+
+</xs:schema>

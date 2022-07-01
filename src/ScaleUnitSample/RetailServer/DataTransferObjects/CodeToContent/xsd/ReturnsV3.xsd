@@ -1,0 +1,250 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema  targetNamespace="http://schemas.datacontract.org/2004/07/LOE.Common.Contracts.Fulfillment.V3"
+            xmlns:fiv3="http://schemas.datacontract.org/2004/07/LOE.Common.Contracts.Fulfillment.V3"
+            xmlns:mswt="http://microsoft.com/wsdl/types/"
+            xmlns:sa="http://schemas.microsoft.com/2003/10/Serialization/Arrays"
+            xmlns:xs="http://www.w3.org/2001/XMLSchema"
+            elementFormDefault="qualified">
+
+  <xs:annotation>
+    <xs:documentation xml:lang="en">
+        Definition of CIS Electronic Software Distribution (ESD) V3 entities used for ESD Returns API
+        input and success output.  Error/fault document exchange follows schema specified in FaultV3.xsd.
+
+        Service Extensibility  
+ 
+        The Service APIs enable extensibility mainly through the use of
+        &lt;any/&gt; XSD declarations with namespace="##other" options, to enable
+        extensibility through dynamic additions of elements defined in new XML
+        namespaces and possibly strongly typed through XML Schema Instance.
+
+        Guiding design principles:
+
+        - Service owns, defines and drives all contract definitions for APIs.
+
+        - Service is not expected to provide forward compatibility.
+
+        - We keep the schema backward compatible, primarily through:
+
+        1) Additions of new types where allowed
+        2) Specialization of existing types
+        3) Use of 'Extensions' sub-document
+
+        - Clients are expected to provide only one of valid versions of input to
+        the Server
+
+        - Clients need to follow the well-established "Must Ignore Unknowns" rule
+        [1] when processing Server's responses to enable forward-compatibility
+        and independent evolution of Server and Client implementations.
+
+        Notes on Enumerations: Enumerations can be very useful in providing
+        clear definition of possible domain values applicable for a specific
+        data exchange context. However, if not treated carefully, they may also
+        result in very fragile close coupling of Client and Server.
+
+        To follow the guiding principles above, this XSD:
+
+        - Restricts the Request parameters to only specific Enum values whenever
+        applicable
+
+        - Relaxes Response parameters to generic 'xs:string' types, while still
+        including applicable Enum values for reference;
+
+        The Client implementation is encouraged to use the applicable Enums, but
+        must handle undefined Enum values gracefully, should they be included in
+        later versions of the Server.
+
+        [1] http://www.w3.org/2001/tag/doc/versioning-20070326#iddiv470454016
+    </xs:documentation>
+  </xs:annotation>
+
+  <xs:import namespace="http://microsoft.com/wsdl/types/" schemaLocation="guid.xsd"/>
+  <xs:import namespace="http://schemas.microsoft.com/2003/10/Serialization/Arrays" schemaLocation="Arrays.xsd"/>
+  <xs:include schemaLocation="CommonV3.xsd"/>
+
+    <!-- ********************************************************** -->
+    <!-- Requests and Responses                                     -->
+    <!-- ********************************************************** -->
+
+    <xs:element name="TokenReturnRequest" type="fiv3:TokenReturnRequestType"/>
+
+    <xs:element name="TokenReturnResponse" type="fiv3:TokenReturnResponseType"/>
+    
+    <!-- ********************************************************** -->
+    <!-- Entity: Transaction                                        -->
+    <!-- ********************************************************** -->
+
+    <xs:complexType name="TransactionContextType">
+        <xs:sequence>
+            <xs:element minOccurs="1" maxOccurs="1" nillable="false" name="ClientTransactionId" type="fiv3:ClientTransactionIdType"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="RequestTransactionContextType">
+        <xs:complexContent mixed="false">
+            <xs:extension base="fiv3:TransactionContextType">
+                <xs:sequence>
+                    <xs:element minOccurs="0" maxOccurs="1" nillable="true" name="PartnerAttributes" type="sa:ArrayOfKeyValueOfstringstring">
+                        <xs:annotation>
+                            <xs:documentation>
+                                Optional key/value pairs that may be provided as additional request context.  The service does not validate
+                                or process them other than to ensure values conform to this schema.
+                            </xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                    <xs:any minOccurs="0" maxOccurs="unbounded" namespace="##other" processContents="lax"/>
+                </xs:sequence>
+                <xs:anyAttribute namespace="##other" processContents="lax"/>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="ResponseTransactionContextType">
+        <xs:complexContent mixed="false">
+            <xs:extension base="fiv3:TransactionContextType">
+                <xs:sequence>
+                    <xs:element minOccurs="1" maxOccurs="1" nillable="false" name="ServiceTransactionId" type="fiv3:ServiceTransactionIdType"/>
+                    <xs:element minOccurs="0" maxOccurs="1" nillable="true"  name="PartnerAttributes" type="sa:ArrayOfKeyValueOfstringstring">
+                        <xs:annotation>
+                            <xs:documentation>
+                                Whatever key value pairs were passed in the request (if any) are returned in the respose, unaltered.
+                            </xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                    <xs:any minOccurs="0" maxOccurs="unbounded" namespace="##other" processContents="lax"/>
+                </xs:sequence>
+                <xs:anyAttribute namespace="##other" processContents="lax"/>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <!-- ********************************************************** -->
+    <!-- Entity: Billing                                            -->
+    <!-- ********************************************************** -->
+
+    <xs:complexType name="BillingType">
+        <xs:sequence>
+            <xs:element minOccurs="1" maxOccurs="1" nillable="false" name="BillToAccountId" type="fiv3:BillToAccountIdType"/>
+            <xs:element minOccurs="1" maxOccurs="1" nillable="true"  name="PurchaseOrderId" type="fiv3:PurchaseOrderIdType"/>
+            <xs:any minOccurs="0" maxOccurs="unbounded" namespace="##other" processContents="lax"/>
+        </xs:sequence>
+        <xs:anyAttribute namespace="##other" processContents="lax"/>
+    </xs:complexType>
+
+    <!-- ********************************************************** -->
+    <!-- Entity: Token                                              -->
+    <!-- ********************************************************** -->
+
+    <xs:complexType name="TokenReferenceType">
+        <xs:sequence>
+            <xs:choice minOccurs="1" maxOccurs="1">
+                <xs:element minOccurs="1" maxOccurs="1" nillable="false" name="Code" type="fiv3:TokenCodeType"/>
+                <!-- May be extended in future with additional token identifier types. -->
+            </xs:choice>
+            <xs:any minOccurs="0" maxOccurs="unbounded" namespace="##other" processContents="lax"/>
+        </xs:sequence>
+        <xs:anyAttribute namespace="##other" processContents="lax"/>
+    </xs:complexType>
+
+    <xs:complexType name="TokenReturnRequestType">
+        <xs:sequence>
+            <xs:element minOccurs="1" maxOccurs="1" nillable="false" name="RequestContext" type="fiv3:RequestTransactionContextType"/>
+            <xs:element minOccurs="1" maxOccurs="1" nillable="false" name="Token" type="fiv3:TokenReferenceType"/>
+            <xs:element minOccurs="1" maxOccurs="1" nillable="false" name="Billing" type="fiv3:BillingType"/>
+            <xs:any minOccurs="0" maxOccurs="unbounded" namespace="##other" processContents="lax"/>
+        </xs:sequence>
+        <xs:anyAttribute namespace="##other" processContents="lax"/>
+    </xs:complexType>
+
+    <xs:complexType name="TokenReturnResponseType">
+        <xs:sequence>
+            <xs:element minOccurs="1" maxOccurs="1" nillable="false" name="ResponseContext" type="fiv3:ResponseTransactionContextType"/>
+            <xs:any minOccurs="0" maxOccurs="unbounded" namespace="##other" processContents="lax"/>
+        </xs:sequence>
+        <xs:anyAttribute namespace="##other" processContents="lax"/>
+    </xs:complexType>    
+
+
+    <!-- ********************************************************** -->
+    <!-- Supporting Types                                           -->
+    <!-- ********************************************************** -->
+
+    <xs:simpleType name="ClientTransactionIdType">
+        <xs:annotation>
+            <xs:documentation>
+                Unique ID supplied by Client.
+
+                The purpose is to enable clients to provide unique trackable
+                identification of each unique business transaction.  It is not merely
+                for technical troubleshooting but represents the business transaction itself.
+
+                This ID should be referenced by the clients for reconciliation, reporting, 
+                diagnostics and troubleshooting purposes, thus the clients are required to record it
+                in persistent manner for future reference, especially in cases when
+                any failures are encountered or transaction reconciliation may be required.
+
+                Use the same ClientTransactionId when retrying the same operation due
+                to transient failures (e.g. networking, service timeouts, etc.).
+
+                Use a newly generated ClientTransactionId to signify a new
+                transaction to carry out an operation by the service (even if all
+                other input parameters for the service request are otherwise the
+                same).
+
+                For best results, use a GUID/UUID generated using standard libraries.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="mswt:guid"/>
+    </xs:simpleType>
+
+    <xs:simpleType name="ServiceTransactionIdType">
+        <xs:annotation>
+            <xs:documentation>
+                Unique ID supplied by Service.
+
+                The purpose is to enable service owners to provide unique trackable
+                identification of each unique request as processed by the service.
+
+                This ID should be referenced by the clients for diagnostics and
+                troubleshooting purposes, thus the clients are required to record it
+                in persistent manner that allows for easy retrieval when failures are
+                encountered.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="mswt:guid"/>
+    </xs:simpleType>
+
+    <xs:simpleType name="PurchaseOrderIdType">
+        <xs:annotation>
+            <xs:documentation>
+                Partner's provided Purchase Order identification.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:minLength value="1"/>
+            <xs:maxLength value="35"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="TokenCodeType">
+        <xs:annotation>
+            <xs:documentation>
+                A product token.            
+            </xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:minLength value="1"/>
+            <xs:maxLength value="50"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="BillToAccountIdType">
+        <xs:annotation>
+            <xs:documentation>
+                An identifier that uniquely identifies a billing account associated with the operation.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="mswt:guid"/>
+    </xs:simpleType>
+
+</xs:schema>

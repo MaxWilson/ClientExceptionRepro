@@ -1,0 +1,708 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema  targetNamespace="http://schemas.datacontract.org/2004/07/Entities"
+            xmlns:fev2="http://schemas.datacontract.org/2004/07/Entities"
+            xmlns:fiv3="http://schemas.datacontract.org/2004/07/LOE.Common.Contracts.Fulfillment.V3"
+            xmlns:mswt="http://microsoft.com/wsdl/types/"
+            xmlns:sa="http://schemas.microsoft.com/2003/10/Serialization/Arrays"
+            xmlns:xs="http://www.w3.org/2001/XMLSchema"
+            elementFormDefault="qualified">
+
+  <xs:annotation>
+    <xs:documentation xml:lang="en">
+      Definition of the two parent Fulfillment V2 entities promoted to V3
+      schema, with their related children:
+
+          1) CatalogResult
+          2) TokenInfo
+    </xs:documentation>
+  </xs:annotation>
+
+  <!--************************************-->
+  <!--            CatalogResult           -->
+  <!--************************************-->
+
+  <xs:import namespace="http://schemas.microsoft.com/2003/10/Serialization/Arrays" schemaLocation="Arrays.xsd"/>
+  <xs:import namespace="http://microsoft.com/wsdl/types/" schemaLocation="guid.xsd"/>
+  <xs:import namespace="http://schemas.datacontract.org/2004/07/LOE.Common.Contracts.Fulfillment.V3" schemaLocation="CommonV3.xsd"/>
+
+  <xs:element name="CatalogResult" type="fev2:CatalogResult"/>
+
+  <xs:complexType name="CatalogResult">
+    <xs:sequence>
+      <xs:element minOccurs="1" maxOccurs="1" nillable="false" name="CatalogEntries" type="fev2:CatalogEntries"/>
+      <xs:element minOccurs="1" maxOccurs="1" nillable="false" name="CurrentPageNum" type="xs:integer"/>
+      <xs:element minOccurs="1" maxOccurs="1" nillable="false" name="TotalPages" type="xs:integer"/>
+      <xs:element minOccurs="1" maxOccurs="1" nillable="false" name="UtcUpdatesFrom" type="xs:dateTime"/>
+      <xs:element minOccurs="1" maxOccurs="1" nillable="false" name="UtcUpdatesTo" type="xs:dateTime"/>
+      <xs:element minOccurs="0" maxOccurs="1" nillable="false" name="Extension" type="fev2:CatalogResultExtension"/>
+      <xs:any minOccurs="0" maxOccurs="unbounded" namespace="##other" processContents="lax"/>
+    </xs:sequence>
+    <xs:anyAttribute namespace="##any" processContents="lax"/>
+  </xs:complexType>
+
+  <xs:complexType name="CatalogEntries">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" nillable="false" name="CatalogChange" type="fev2:CatalogChange"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="CatalogChange">
+    <xs:sequence>
+      <xs:element minOccurs="1" maxOccurs="1" nillable="false" name="CatalogMeta" type="fev2:ProductCatalogMeta"/>
+      <xs:element minOccurs="0" maxOccurs="1" nillable="false" name="IsDeleted" type="xs:boolean"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="ProductCatalogMeta">
+    <xs:sequence>
+      <xs:element minOccurs="1" maxOccurs="1" nillable="true"  name="BundledItems" type="fev2:BundledItems"/>
+      <xs:element minOccurs="1" maxOccurs="1" nillable="true"  name="Description" type="xs:string"/>
+      <xs:element minOccurs="1" maxOccurs="1" nillable="true"  name="FullTitle" type="xs:string"/>
+      <xs:element minOccurs="1" maxOccurs="1" nillable="true"  name="Pricing" type="fev2:Pricing"/>
+      <xs:element minOccurs="1" maxOccurs="1" nillable="true"  name="RelatedProducts" type="fev2:RelatedProducts"/>
+      <xs:element minOccurs="1" maxOccurs="1" nillable="true"  name="Sku" type="fiv3:SKU"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="GameCatalogMeta">
+    <xs:complexContent mixed="false">
+      <xs:extension base="fev2:ProductCatalogMeta">
+        <xs:sequence>
+          <xs:element minOccurs="1" maxOccurs="1" nillable="true"  name="Developer" type="xs:string"/>
+          <xs:element minOccurs="1" maxOccurs="1" nillable="true"  name="GamePurchaseDownloadUrl" type="fev2:GamePurchaseDownloadUrl"/>
+          <xs:element minOccurs="1" maxOccurs="1" nillable="true"  name="GameRating" type="fev2:Rating"/>
+          <xs:element minOccurs="1" maxOccurs="1" nillable="true"  name="OfflineCapabilities" type="fev2:OfflineCapabilities"/>
+          <xs:element minOccurs="1" maxOccurs="1" nillable="true"  name="OnlineCapabilities" type="fev2:OnlineCapabilities"/>
+          <xs:element minOccurs="1" maxOccurs="1" nillable="true"  name="ProductImages" type="fev2:ProductImages"/>
+          <xs:element minOccurs="1" maxOccurs="1" nillable="true"  name="ProductVideos" type="fev2:ProductVideos" />
+          <xs:element minOccurs="1" maxOccurs="1" nillable="true"  name="Publisher" type="xs:string"/>
+          <xs:element minOccurs="1" maxOccurs="1" nillable="false" name="ReleaseDate" type="xs:dateTime"/>
+          <xs:element minOccurs="0" maxOccurs="1" nillable="false" name="Extension" type="fev2:GameCatalogMetaExtension"/>
+          <xs:any minOccurs="0" maxOccurs="unbounded" namespace="##other" processContents="lax"/>
+        </xs:sequence>
+        <xs:anyAttribute namespace="##any" processContents="lax"/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="BundledItems">
+    <xs:sequence>
+      <xs:any minOccurs="0" maxOccurs="unbounded" namespace="##any" processContents="lax"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="RelatedProducts">
+    <xs:sequence>
+      <xs:any minOccurs="0" maxOccurs="unbounded" namespace="##any" processContents="lax"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="Pricing">
+    <xs:sequence>
+      <xs:element minOccurs="1" maxOccurs="unbounded" nillable="false" name="Price" type="fev2:Price"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="Price">
+    <xs:sequence>
+      <xs:element minOccurs="1" maxOccurs="1" nillable="false" name="Amount" type="xs:decimal" />
+      <xs:element minOccurs="1" maxOccurs="1" nillable="false" name="Currency" type="fiv3:ISOCurrencyCode"/>
+      <xs:element minOccurs="1" maxOccurs="1" nillable="false" name="PriceType" type="xs:string">
+        <xs:annotation><xs:documentation>
+          One of possible types as specified by 'PriceType' enum.
+        </xs:documentation></xs:annotation>
+      </xs:element>
+      <xs:element minOccurs="1" maxOccurs="1" nillable="false" name="ValidFrom" type="xs:dateTime"/>
+      <xs:element minOccurs="1" maxOccurs="1" nillable="false" name="ValidTo" type="xs:dateTime"/>
+      <xs:element minOccurs="0" maxOccurs="1" nillable="false" name="Extension" type="fev2:PriceExtension"/>
+      <xs:any minOccurs="0" maxOccurs="unbounded" namespace="##other" processContents="lax"/>
+    </xs:sequence>
+    <xs:anyAttribute namespace="##any" processContents="lax"/>
+  </xs:complexType>
+
+  <xs:complexType name="GamePurchaseDownloadUrl">
+    <xs:sequence>
+      <xs:any minOccurs="0" maxOccurs="unbounded" namespace="##any" processContents="lax"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="Rating">
+    <xs:sequence>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="EsrbRating">
+    <xs:complexContent mixed="false">
+      <xs:extension base="fev2:Rating">
+        <xs:sequence>
+          <xs:element minOccurs="1" maxOccurs="1" nillable="false" name="RatingDescriptors" type="sa:ArrayOfstring">
+            <xs:annotation><xs:documentation>
+              Collection of Rating Descriptor names as specified by EsrbRatingDescriptors enum.
+            </xs:documentation></xs:annotation>
+          </xs:element>
+          <xs:element minOccurs="1" maxOccurs="1" nillable="false" name="RatingName" type="xs:string">
+            <xs:annotation><xs:documentation>
+              One of possible names as specified by 'EsrbRatingName' enum.
+            </xs:documentation></xs:annotation>
+          </xs:element>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="PegiRating">
+    <xs:complexContent mixed="false">
+      <xs:extension base="fev2:Rating">
+        <xs:sequence>
+          <xs:element minOccurs="1" maxOccurs="1" nillable="false" name="RatingDescriptors" type="sa:ArrayOfstring">
+            <xs:annotation><xs:documentation>
+              Collection of Rating Descriptor names as specified by PegiRatingDescriptors enum.
+            </xs:documentation></xs:annotation>
+          </xs:element>
+          <xs:element minOccurs="1" maxOccurs="1" nillable="false" name="RatingName" type="xs:string">
+            <xs:annotation><xs:documentation>
+              One of possible names as specified by 'PegiRatingName' enum.
+            </xs:documentation></xs:annotation>
+          </xs:element>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="CeroRating">
+    <xs:complexContent mixed="false">
+      <xs:extension base="fev2:Rating">
+        <xs:sequence>
+          <xs:element minOccurs="1" maxOccurs="1" nillable="false" name="RatingDescriptors" type="sa:ArrayOfstring"/>
+          <xs:element minOccurs="1" maxOccurs="1" nillable="false" name="RatingName" type="xs:string"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="PegiFinlandRating">
+    <xs:complexContent mixed="false">
+      <xs:extension base="fev2:Rating">
+        <xs:sequence>
+          <xs:element minOccurs="1" maxOccurs="1" nillable="false" name="RatingDescriptors" type="sa:ArrayOfstring"/>
+          <xs:element minOccurs="1" maxOccurs="1" nillable="false" name="RatingName" type="xs:string"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="PegiPortugalRating">
+    <xs:complexContent mixed="false">
+      <xs:extension base="fev2:Rating">
+        <xs:sequence>
+          <xs:element minOccurs="1" maxOccurs="1" nillable="false" name="RatingDescriptors" type="sa:ArrayOfstring"/>
+          <xs:element minOccurs="1" maxOccurs="1" nillable="false" name="RatingName" type="xs:string"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="UskRating">
+    <xs:complexContent mixed="false">
+      <xs:extension base="fev2:Rating">
+        <xs:sequence>
+          <xs:element minOccurs="1" maxOccurs="1" nillable="false" name="RatingDescriptors" type="sa:ArrayOfstring"/>
+          <xs:element minOccurs="1" maxOccurs="1" nillable="false" name="RatingName" type="xs:string"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="OflcRating">
+    <xs:complexContent mixed="false">
+      <xs:extension base="fev2:Rating">
+        <xs:sequence>
+          <xs:element minOccurs="1" maxOccurs="1" nillable="false" name="RatingDescriptors" type="sa:ArrayOfstring"/>
+          <xs:element minOccurs="1" maxOccurs="1" nillable="false" name="RatingName" type="xs:string"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="KmrbRating">
+    <xs:complexContent mixed="false">
+      <xs:extension base="fev2:Rating">
+        <xs:sequence>
+          <xs:element minOccurs="1" maxOccurs="1" nillable="false" name="RatingDescriptors" type="sa:ArrayOfstring"/>
+          <xs:element minOccurs="1" maxOccurs="1" nillable="false" name="RatingName" type="xs:string"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="BrazilRating">
+    <xs:complexContent mixed="false">
+      <xs:extension base="fev2:Rating">
+        <xs:sequence>
+          <xs:element minOccurs="1" maxOccurs="1" nillable="false" name="RatingDescriptors" type="sa:ArrayOfstring"/>
+          <xs:element minOccurs="1" maxOccurs="1" nillable="false" name="RatingName" type="xs:string"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="FpbRating">
+    <xs:complexContent mixed="false">
+      <xs:extension base="fev2:Rating">
+        <xs:sequence>
+          <xs:element minOccurs="1" maxOccurs="1" nillable="false" name="RatingDescriptors" type="sa:ArrayOfstring"/>
+          <xs:element minOccurs="1" maxOccurs="1" nillable="false" name="RatingName" type="xs:string"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="GrbRating">
+    <xs:complexContent mixed="false">
+      <xs:extension base="fev2:Rating">
+        <xs:sequence>
+          <xs:element minOccurs="1" maxOccurs="1" nillable="false" name="RatingDescriptors" type="sa:ArrayOfstring"/>
+          <xs:element minOccurs="1" maxOccurs="1" nillable="false" name="RatingName" type="xs:string"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="UnknownRating">
+    <xs:complexContent mixed="false">
+      <xs:extension base="fev2:Rating">
+        <xs:sequence>
+          <xs:element minOccurs="1" maxOccurs="1" nillable="false" name="RatingDescriptors" type="sa:ArrayOfstring"/>
+          <xs:element minOccurs="1" maxOccurs="1" nillable="false" name="RatingName" type="xs:string"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="OfflineCapabilities">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" nillable="false" name="Camera" type="xs:boolean"/>
+      <xs:element minOccurs="1" maxOccurs="1" nillable="true"  name="CoOpPlayers" type="fev2:Range"/>
+      <xs:element minOccurs="0" maxOccurs="1" nillable="false" name="DolbyDigital" type="xs:boolean"/>
+      <xs:element minOccurs="1" maxOccurs="1" nillable="true"  name="Players" type="fev2:Range"/>
+      <xs:element minOccurs="1" maxOccurs="1" nillable="true"  name="SystemLink" type="fev2:Range"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="OnlineCapabilities">
+    <xs:sequence>
+      <xs:element minOccurs="1" maxOccurs="1" nillable="true"  name="OnlineCoOpPlayers" type="fev2:Range"/>
+      <xs:element minOccurs="1" maxOccurs="1" nillable="false" name="OnlineContentDownload" type="xs:boolean"/>
+      <xs:element minOccurs="1" maxOccurs="1" nillable="false" name="OnlineLeaderBoards" type="xs:boolean"/>
+      <xs:element minOccurs="1" maxOccurs="1" nillable="true"  name="OnlineMultiPlayer" type="fev2:Range"/>
+      <xs:element minOccurs="1" maxOccurs="1" nillable="false" name="OnlineVoice" type="xs:boolean"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="ProductImages">
+    <xs:sequence>
+      <xs:element minOccurs="1" maxOccurs="1" nillable="false" name="BoxArtFileUrl" type="fev2:URI"/>
+      <xs:element minOccurs="1" maxOccurs="1" nillable="false" name="IconFileUrl" type="fev2:URI"/>
+      <xs:element minOccurs="1" maxOccurs="1" nillable="false" name="ScreenshotFileUrls" type="sa:ArrayOfstring" />
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="ProductVideos">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" nillable="false" name="ProductVideo" type="fev2:ProductVideo"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="ProductVideo">
+    <xs:sequence>
+      <xs:element minOccurs="1" maxOccurs="1" nillable="false" name="VideoDefinition" type="xs:string"/>
+      <xs:element minOccurs="1" maxOccurs="1" nillable="false" name="VideoFileUrls" type="sa:ArrayOfstring"/>
+      <xs:element minOccurs="0" maxOccurs="1" nillable="false" name="Extension" type="fev2:ProductVideoExtension"/>
+      <xs:any minOccurs="0" maxOccurs="unbounded" namespace="##other" processContents="lax"/>
+    </xs:sequence>
+    <xs:anyAttribute namespace="##any" processContents="lax"/>
+  </xs:complexType>
+
+  <xs:complexType name="Range">
+    <xs:sequence>
+      <xs:element minOccurs="1" maxOccurs="1" nillable="false" name="Max" type="xs:integer"/>
+      <xs:element minOccurs="1" maxOccurs="1" nillable="false" name="Min" type="xs:integer"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="CatalogResultExtension">
+    <xs:sequence>
+      <xs:any minOccurs="1" maxOccurs="unbounded" namespace="##targetNamespace" processContents="lax"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="GameCatalogMetaExtension">
+    <xs:sequence>
+      <xs:any minOccurs="1" maxOccurs="unbounded" namespace="##targetNamespace" processContents="lax"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="PriceExtension">
+    <xs:sequence>
+      <xs:any minOccurs="1" maxOccurs="unbounded" namespace="##targetNamespace" processContents="lax"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="ProductVideoExtension">
+    <xs:sequence>
+      <xs:any minOccurs="1" maxOccurs="unbounded" namespace="##targetNamespace" processContents="lax"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:simpleType name="PriceType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="DigitalWholesale"/>
+      <xs:enumeration value="DigitalConsignmentRetail"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="EsrbRatingName">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="EarlyChildhood">
+        <xs:annotation><xs:documentation>
+          Early Childhood.
+        </xs:documentation></xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Everyone">
+        <xs:annotation><xs:documentation>
+          Everyone.
+        </xs:documentation></xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="10PLUS">
+        <xs:annotation><xs:documentation>
+          10+.
+        </xs:documentation></xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Teen">
+        <xs:annotation><xs:documentation>
+          Teen.
+        </xs:documentation></xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Mature">
+        <xs:annotation><xs:documentation>
+          Mature.
+        </xs:documentation></xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="AdultsOnly">
+        <xs:annotation><xs:documentation>
+          Adults Only.
+        </xs:documentation></xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="RatingPending">
+        <xs:annotation><xs:documentation>
+          Rating Pending.
+        </xs:documentation></xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Unknown">
+        <xs:annotation><xs:documentation>
+          Unknown rating.
+        </xs:documentation></xs:annotation>
+      </xs:enumeration>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="EsrbRatingDescriptors">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="AlcoholReference">
+        <xs:annotation><xs:documentation>
+          Reference to and/or images of alcoholic beverages.
+        </xs:documentation></xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="AnimatedBlood">
+        <xs:annotation><xs:documentation>
+          Cartoon or pixilated depictions of blood.
+        </xs:documentation></xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Blood">
+        <xs:annotation><xs:documentation>
+          Depictions of blood.
+        </xs:documentation></xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="BloodandGore">
+        <xs:annotation><xs:documentation>
+          Depictions of blood or the mutilation of body parts.
+        </xs:documentation></xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="CartoonViolence">
+        <xs:annotation><xs:documentation>
+          Violent actions involving cartoon-like characters. May include
+          violence where a character is unharmed after the action has been
+          inflicted.
+        </xs:documentation></xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="ComicMischief">
+        <xs:annotation><xs:documentation>
+          Scenes depicting slapstick or gross vulgar humor.
+        </xs:documentation></xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="CrudeHumor">
+        <xs:annotation><xs:documentation>
+          Moderately vulgar antics, including bathroom humor.
+        </xs:documentation></xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="DrugReference">
+        <xs:annotation><xs:documentation>
+          Reference to and/or images of illegal drugs.
+        </xs:documentation></xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Edutainment">
+        <xs:annotation><xs:documentation>
+          Content of product provides user with specific skills development or
+          reinforcement learning within an entertainment setting. Skill
+          development is an integral part of product.
+        </xs:documentation></xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="FantasyViolence">
+        <xs:annotation><xs:documentation>
+          Violent actions of a fantasy nature, involving human or non-human
+          characters in situations easily distinguishable from real life.
+        </xs:documentation></xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="RealGambling">
+        <xs:annotation><xs:documentation>
+          Betting like behavior.
+        </xs:documentation></xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Informational">
+        <xs:annotation><xs:documentation>
+          Overall content of product contains data, facts, resource information,
+          reference materials or instructional text.
+        </xs:documentation></xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="IntenseViolence">
+        <xs:annotation><xs:documentation>
+          Graphic and realistic-looking depictions of physical conflict. May
+          involve extreme and/or realistic blood, gore, weapons, and depictions
+          of human injury and death.
+        </xs:documentation></xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="MatureHumor">
+        <xs:annotation><xs:documentation>
+          Vulgar and/or crude jokes and antics including "bathroom" humor.
+        </xs:documentation></xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="MatureSexualThemes">
+        <xs:annotation><xs:documentation>
+          Provocative material, possibly including partial nudity.
+        </xs:documentation></xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Language">
+        <xs:annotation><xs:documentation>
+          Mild references to profanity, sexuality, violence, alcohol, or drug use.
+        </xs:documentation></xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Lyrics">
+        <xs:annotation><xs:documentation>
+          Mild references to profanity, sexuality, violence, alcohol, or drug
+          use in music.
+        </xs:documentation></xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="MildViolence">
+        <xs:annotation><xs:documentation>
+          Mild scenes depicting characters in unsafe and/or violent situations.
+        </xs:documentation></xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Nudity">
+        <xs:annotation><xs:documentation>
+          Graphic or prolonged depictions of nudity.
+        </xs:documentation></xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="PartialNudity">
+        <xs:annotation><xs:documentation>
+          Brief and mild depictions of nudity.
+        </xs:documentation></xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="SexualViolence">
+        <xs:annotation><xs:documentation>
+          Depictions of rape or other sexual acts.
+        </xs:documentation></xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="SomeAdultAssistanceMayBeNeeded">
+        <xs:annotation><xs:documentation>
+          Early Childhood Descriptor only.
+        </xs:documentation></xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="StrongLanguage">
+        <xs:annotation><xs:documentation>
+          Profanity and explicit references to sexuality, violence, alcohol, or
+          drug use.
+        </xs:documentation></xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="StrongLyrics">
+        <xs:annotation><xs:documentation>
+          Profanity and explicit references to sex, violence, alcohol, or drug
+          use in music.
+        </xs:documentation></xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="StrongSexualContent">
+        <xs:annotation><xs:documentation>
+          Graphic depiction of sexual behavior, possibly including nudity.
+        </xs:documentation></xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="SuggestiveThemes">
+        <xs:annotation><xs:documentation>
+          Mild provocative references or materials.
+        </xs:documentation></xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="TobaccoReference">
+        <xs:annotation><xs:documentation>
+          Reference to and/or images of tobacco products.
+        </xs:documentation></xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="UseofDrugs">
+        <xs:annotation><xs:documentation>
+          The consumption or use of illegal drugs.
+        </xs:documentation></xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="UseofAlcohol">
+        <xs:annotation><xs:documentation>
+          The consumption of alcoholic beverages.
+        </xs:documentation></xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="UseofTobacco">
+        <xs:annotation><xs:documentation>
+          The consumption of tobacco products.
+        </xs:documentation></xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Violence">
+        <xs:annotation><xs:documentation>
+          Scenes involving aggressive conflict.
+        </xs:documentation></xs:annotation>
+      </xs:enumeration>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="PegiRatingName">
+    <!-- Pan European Games Information (PEGI)
+         http://www.xbox.com/en-GB/Marketplace/gameratings
+     -->
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="3+">
+        <xs:annotation><xs:documentation>
+          Game content suitable for children aged 3 or over.
+        </xs:documentation></xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="7+">
+        <xs:annotation><xs:documentation>
+          Game content suitable for children aged 7 or over.
+        </xs:documentation></xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="12+">
+        <xs:annotation><xs:documentation>
+          Game content suitable for children aged 12 or over.
+        </xs:documentation></xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="16+">
+        <xs:annotation><xs:documentation>
+          Game content suitable for teenagers aged 16 or over.
+        </xs:documentation></xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="18+">
+        <xs:annotation><xs:documentation>
+          Game content suitable for adults aged 18 or over.
+        </xs:documentation></xs:annotation>
+      </xs:enumeration>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="PegiRatingDescriptors">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="Violence">
+        <xs:annotation><xs:documentation>
+          Scenes involving aggressive conflict.
+        </xs:documentation></xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Blood">
+        <xs:annotation><xs:documentation>
+          Depictions of blood.
+        </xs:documentation></xs:annotation>
+      </xs:enumeration>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="URI">
+    <xs:restriction base="xs:string">
+      <xs:minLength value="0"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <!--************************************-->
+  <!--            TokenInfo           -->
+  <!--************************************-->
+
+  <xs:element name="TokenInfo" type="fev2:TokenInfo"/>
+
+  <xs:complexType name="TokenInfo">
+    <xs:sequence>
+      <xs:element minOccurs="1" maxOccurs="1" nillable="false" name="LastUpdateOfStatus" type="xs:dateTime"/>
+      <xs:element minOccurs="1" maxOccurs="1" nillable="true"  name="PromotionName" type="xs:string"/>
+      <xs:element minOccurs="1" maxOccurs="1" nillable="true"  name="RedemptionDateTime" type="xs:dateTime"/>
+      <xs:element minOccurs="1" maxOccurs="1" nillable="true"  name="TokenClassName" type="xs:string"/>
+      <xs:element minOccurs="1" maxOccurs="1" nillable="false" name="TokenStatus" type="xs:string">
+        <xs:annotation><xs:documentation>
+          One of possible statuses as specified by 'TokenStatus' enum.
+        </xs:documentation></xs:annotation>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:simpleType name="TokenStatus">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="Created">
+        <xs:annotation>
+          <xs:documentation>
+            Usually not used in CIS ESD scenarios. Most Xbox Live tokens are
+            loaded into CIS as "Activated"
+          </xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Activated">
+        <xs:annotation>
+          <xs:documentation>
+            This is the state that tokens are in when returned from GetToken
+            calls.  It means that they are ready to be sold.
+            (Tokens can only be redeemed on a XBOX console if they are in the
+            Activated state.)
+          </xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Redeemed">
+        <xs:annotation>
+          <xs:documentation>
+            The token has been redeemed by the end customer.
+          </xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Blacklisted">
+        <xs:annotation>
+          <xs:documentation>
+            The token has been marked as "Do Not Use" in a CIS backend system.
+            All activity external to CIS is not allowed and the state cannot be
+            changed externally.
+          </xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Invalid">
+        <xs:annotation>
+          <xs:documentation>
+            CIS has no knowledge of the token. Either the token was never loaded
+            into CIS or some part of the 5x5 was transposed or mistyped.
+          </xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Unknown">
+        <xs:annotation>
+          <xs:documentation>
+            There was an internal issue retrieving the status of the token.
+          </xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+    </xs:restriction>
+  </xs:simpleType>
+
+</xs:schema>

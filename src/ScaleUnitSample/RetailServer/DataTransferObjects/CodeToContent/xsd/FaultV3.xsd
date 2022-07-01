@@ -1,0 +1,50 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema  targetNamespace="http://schemas.microsoft.com/ws/2005/05/envelope/none"
+            xmlns:efv3="http://schemas.microsoft.com/ws/2005/05/envelope/none"
+            xmlns:fev3="http://schemas.datacontract.org/2004/07/Entities"
+            xmlns:xml="http://www.w3.org/XML/1998/namespace"
+            xmlns:xs="http://www.w3.org/2001/XMLSchema"
+            attributeFormDefault="qualified"
+            elementFormDefault="qualified">
+
+  <xs:import namespace="http://www.w3.org/XML/1998/namespace" schemaLocation="xml.xsd"/>
+  <xs:import namespace="http://schemas.datacontract.org/2004/07/Entities" schemaLocation="EntitiesCommon.xsd"/>
+
+  <xs:element name="Fault" type="efv3:Fault"/>
+
+  <xs:complexType name="Fault">
+    <xs:sequence>
+      <xs:element minOccurs="1" maxOccurs="1" nillable="false" name="Code" type="efv3:Code"/>
+      <xs:element minOccurs="1" maxOccurs="1" nillable="false" name="Reason" type="efv3:Reason"/>
+      <xs:element minOccurs="1" maxOccurs="1" nillable="false" name="Detail" type="fev3:Detail"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="Code">
+    <xs:sequence>
+      <xs:element minOccurs="1" maxOccurs="1" nillable="false" name="Value" type="xs:string"/>
+      <xs:element minOccurs="1" maxOccurs="1" nillable="false" name="Subcode" type="efv3:Subcode"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="Subcode">
+    <xs:sequence>
+      <xs:element minOccurs="1" maxOccurs="1" nillable="false" name="Value" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="Reason">
+    <xs:sequence>
+      <xs:element minOccurs="1" maxOccurs="1" nillable="false" name="Text" type="efv3:Text"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="Text">
+    <xs:simpleContent>
+      <xs:extension base="xs:string">
+        <xs:attribute ref="xml:lang" use="optional"/>
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+
+</xs:schema>

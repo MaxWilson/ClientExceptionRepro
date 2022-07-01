@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema  targetNamespace="http://schemas.datacontract.org/2004/07/Entities"
+            xmlns:fev3="http://schemas.datacontract.org/2004/07/Entities"
+            xmlns:xs="http://www.w3.org/2001/XMLSchema"
+            elementFormDefault="qualified">
+
+  <xs:annotation>
+    <xs:documentation xml:lang="en">
+      Definition of the two parent Fulfillment V2 entities promoted to V3
+      schema, with their related children:
+
+          1) CatalogResult
+          2) TokenInfo
+    </xs:documentation>
+  </xs:annotation>
+
+
+  <xs:complexType name="Detail">
+    <xs:sequence>
+      <xs:element name="PartnerRESTServiceFault" type="fev3:RESTServiceFault"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="RESTServiceFault">
+    <xs:sequence>
+      <xs:element minOccurs="1" maxOccurs="1" nillable="false" name="ErrorCode" type="xs:string" />
+      <xs:element minOccurs="1" maxOccurs="1" nillable="false" name="Message" type="xs:string" />
+      <xs:element minOccurs="1" maxOccurs="1" nillable="false" name="ReferenceNumber" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+
+</xs:schema>

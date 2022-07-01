@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema  targetNamespace="http://schemas.datacontract.org/2004/07/LOE.Common.Contracts.Fulfillment.V3"
+            xmlns:fiv3="http://schemas.datacontract.org/2004/07/LOE.Common.Contracts.Fulfillment.V3"
+            xmlns:xs="http://www.w3.org/2001/XMLSchema"
+            elementFormDefault="qualified">
+
+  <xs:annotation>
+    <xs:documentation xml:lang="en">
+      Definition of common entities shared across variety of Fulfillment
+      entities, versions.
+    </xs:documentation>
+  </xs:annotation>
+
+  <xs:import namespace="http://microsoft.com/wsdl/types/" schemaLocation="guid.xsd"/>
+  <xs:import namespace="http://schemas.microsoft.com/2003/10/Serialization/Arrays" schemaLocation="Arrays.xsd"/>
+
+  <xs:simpleType name="ISOCountryCode">
+    <xs:restriction base="xs:string">
+      <xs:minLength value="2"/>
+      <xs:maxLength value="2"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="ISOCurrencyCode">
+    <xs:restriction base="xs:string">
+      <xs:minLength value="3"/>
+      <xs:maxLength value="3"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="PONumber">
+    <xs:restriction base="xs:string">
+      <xs:minLength value="1"/>
+      <xs:maxLength value="35"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="SKU">
+    <xs:restriction base="xs:string">
+      <xs:pattern value="[0-9a-zA-Z]{3}-[0-9a-zA-Z]{5}"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+</xs:schema>

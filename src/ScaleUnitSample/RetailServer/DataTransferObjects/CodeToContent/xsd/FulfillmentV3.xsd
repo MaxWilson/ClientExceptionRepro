@@ -1,0 +1,246 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema  targetNamespace="http://schemas.datacontract.org/2004/07/LOE.Common.Contracts.Fulfillment.V3"
+            xmlns:fiv3="http://schemas.datacontract.org/2004/07/LOE.Common.Contracts.Fulfillment.V3"
+            xmlns:mswt="http://microsoft.com/wsdl/types/"
+            xmlns:sa="http://schemas.microsoft.com/2003/10/Serialization/Arrays"
+            xmlns:xs="http://www.w3.org/2001/XMLSchema"
+            elementFormDefault="qualified">
+
+  <xs:annotation>
+    <xs:documentation xml:lang="en">
+      Definition of the two parent Fulfillment V3 entities and their related
+      children:
+
+          1) FulfillmentInfo
+          2) LinkInfo
+    </xs:documentation>
+  </xs:annotation>
+
+  <xs:import namespace="http://microsoft.com/wsdl/types/" schemaLocation="guid.xsd"/>
+  <xs:import namespace="http://schemas.microsoft.com/2003/10/Serialization/Arrays" schemaLocation="Arrays.xsd"/>
+  <xs:include schemaLocation="CommonV3.xsd"/>
+
+  <xs:element name="FulfillmentInfo" type="fiv3:FulfillmentInfo"/>
+
+  <xs:complexType name="FulfillmentInfo">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" nillable="true"  name="AdditionalInformation" type="fiv3:AdditionalInformation"/>
+      <xs:element minOccurs="1" maxOccurs="1" nillable="false" name="ClientTransactionId" type="mswt:guid"/>
+      <xs:element minOccurs="0" maxOccurs="1" nillable="true"  name="ExtendedAttributes" type="sa:ArrayOfKeyValueOfstringstring"/>
+      <xs:element minOccurs="1" maxOccurs="1" nillable="false" name="ISOCountryCode" type="fiv3:ISOCountryCode"/>
+      <xs:element minOccurs="0" maxOccurs="1" nillable="true"  name="PONumber" type="fiv3:PONumber"/>
+      <xs:element minOccurs="0" maxOccurs="1" nillable="true"  name="PartnerAttributes" type="sa:ArrayOfKeyValueOfstringstring"/>
+      <xs:element minOccurs="0" maxOccurs="1" nillable="false" name="Products" type="fiv3:ArrayOfProduct"/>
+      <xs:element minOccurs="1" maxOccurs="1" nillable="false" name="ResellerId" type="fiv3:ResellerId"/>
+      <xs:element minOccurs="1" maxOccurs="1" nillable="false" name="StoreId" type="fiv3:StoreId"/>
+      <xs:element minOccurs="0" maxOccurs="1" nillable="false" name="Extension" type="fiv3:FulfillmentInfoExtension"/>
+      <xs:any minOccurs="0" maxOccurs="unbounded" namespace="##other" processContents="lax"/>
+    </xs:sequence>
+    <xs:anyAttribute namespace="##any" processContents="lax"/>
+  </xs:complexType>
+
+  <xs:element name="LinkInfo" type="fiv3:LinkInfo"/>
+
+  <xs:complexType name="LinkInfo">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" nillable="true"  name="AdditionalInformation" type="fiv3:AdditionalInformation"/>
+      <xs:element minOccurs="1" maxOccurs="1" nillable="false" name="ClientTransactionId" type="mswt:guid"/>
+      <xs:element minOccurs="0" maxOccurs="1" nillable="true"  name="ExtendedAttributes" type="sa:ArrayOfKeyValueOfstringstring"/>
+      <xs:element minOccurs="1" maxOccurs="1" nillable="false" name="ISOCountryCode" type="fiv3:ISOCountryCode"/>
+      <xs:element minOccurs="0" maxOccurs="1" nillable="true"  name="PartnerAttributes" type="sa:ArrayOfKeyValueOfstringstring"/>
+      <xs:element minOccurs="0" maxOccurs="1" nillable="false" name="Products" type="fiv3:ArrayOfProduct"/>
+      <xs:element minOccurs="0" maxOccurs="1" nillable="false" name="Extension" type="fiv3:LinkInfoExtension"/>
+      <xs:any minOccurs="0" maxOccurs="unbounded" namespace="##other" processContents="lax"/>
+    </xs:sequence>
+    <xs:anyAttribute namespace="##any" processContents="lax"/>
+  </xs:complexType>
+
+  <xs:complexType name="AdditionalInformation">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" nillable="false" name="Properties" type="fiv3:Property"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="Property">
+    <xs:simpleContent>
+      <xs:extension base="xs:string">
+        <xs:attribute name="name" type="xs:string" use="required"/>
+        <xs:attribute name="dataType" type="xs:string" use="required"/>
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+
+  <xs:complexType name="ArrayOfProduct">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" nillable="true" name="Product" type="fiv3:Product"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="Product">
+    <xs:complexContent mixed="false">
+      <xs:extension base="fiv3:ProductInfo">
+        <xs:sequence>
+          <xs:element minOccurs="0" maxOccurs="1" nillable="false" name="Links" type="fiv3:ArrayOfLink"/>
+          <xs:element minOccurs="0" maxOccurs="1" nillable="false" name="Tokens" type="fiv3:ArrayOfToken"/>
+          <xs:element minOccurs="0" maxOccurs="1" nillable="false" name="Extension" type="fiv3:ProductExtension"/>
+          <xs:any minOccurs="0" maxOccurs="unbounded" namespace="##other" processContents="lax"/>
+        </xs:sequence>
+        <xs:anyAttribute namespace="##any" processContents="lax"/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="ProductInfo">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" nillable="false" name="AdditionalInformation" type="fiv3:AdditionalInformation"/>
+      <xs:element minOccurs="1" maxOccurs="1" nillable="false" name="FulfillmentType" type="xs:int"/>
+      <xs:element minOccurs="1" maxOccurs="1" nillable="false" name="ProductName" type="xs:string"/>
+      <xs:element minOccurs="1" maxOccurs="1" nillable="false" name="Sku" type="fiv3:SKU"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="ArrayOfToken">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" nillable="true" name="Token" type="fiv3:Token"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="Token">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" nillable="false" name="AdditionalInformation" type="fiv3:AdditionalInformation"/>
+      <xs:element minOccurs="1" maxOccurs="1" nillable="false" name="Code" type="xs:string"/>
+      <xs:element minOccurs="0" maxOccurs="1" nillable="false" name="Description" type="xs:string"/>
+      <xs:element minOccurs="1" maxOccurs="1" nillable="false" name="Id" type="xs:string"/>
+      <xs:element minOccurs="1" maxOccurs="1" nillable="false" name="SequenceNumber" type="xs:string"/>
+      <xs:element minOccurs="1" maxOccurs="1" nillable="false" name="Type" type="xs:string">
+        <xs:annotation><xs:documentation>
+          One of possible types as specified by 'TokenType' enum.
+        </xs:documentation></xs:annotation>
+      </xs:element>
+      <xs:element minOccurs="0" maxOccurs="1" nillable="false" name="Extension" type="fiv3:TokenExtension"/>
+      <xs:any minOccurs="0" maxOccurs="unbounded" namespace="##other" processContents="lax"/>
+    </xs:sequence>
+    <xs:anyAttribute namespace="##any" processContents="lax"/>
+  </xs:complexType>
+
+  <xs:simpleType name="TokenType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="PIN">
+        <xs:annotation>
+          <xs:documentation>
+            Token which must be exchanged for a key to activate a product.
+          </xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="EncryptedPIN">
+        <xs:annotation>
+          <xs:documentation>
+            Encrypted PIN
+          </xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Key">
+        <xs:annotation>
+          <xs:documentation>
+            Product activation code
+          </xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:complexType name="ArrayOfLink">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" nillable="true" name="Link" type="fiv3:Link"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="Link">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" nillable="false" name="AdditionalInformation" type="fiv3:AdditionalInformation"/>
+      <xs:element minOccurs="1" maxOccurs="1" nillable="false" name="Description" type="xs:string"/>
+      <xs:element minOccurs="0" maxOccurs="1" nillable="true"  name="ExpirationDate" type="xs:dateTime"/>
+      <xs:element minOccurs="1" maxOccurs="1" nillable="false" name="Id" type="xs:string"/>
+      <xs:element minOccurs="1" maxOccurs="1" nillable="false" name="Type" type="xs:string">
+        <xs:annotation><xs:documentation>
+          One of possible types as specified by 'LinkType' enum.
+        </xs:documentation></xs:annotation>
+      </xs:element>
+      <xs:element minOccurs="0" maxOccurs="1" nillable="false" name="Uri" type="xs:string"/>
+      <xs:element minOccurs="0" maxOccurs="1" nillable="false" name="Extension" type="fiv3:LinkExtension"/>
+      <xs:any minOccurs="0" maxOccurs="unbounded" namespace="##other" processContents="lax"/>
+    </xs:sequence>
+    <xs:anyAttribute namespace="##any" processContents="lax"/>
+  </xs:complexType>
+
+  <xs:complexType name="FulfillmentInfoExtension">
+    <xs:sequence>
+      <xs:any minOccurs="1" maxOccurs="unbounded" namespace="##targetNamespace" processContents="lax"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="LinkInfoExtension">
+    <xs:sequence>
+      <xs:any minOccurs="1" maxOccurs="unbounded" namespace="##targetNamespace" processContents="lax"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="ProductExtension">
+    <xs:sequence>
+      <xs:any minOccurs="1" maxOccurs="unbounded" namespace="##targetNamespace" processContents="lax"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="TokenExtension">
+    <xs:sequence>
+      <xs:any minOccurs="1" maxOccurs="unbounded" namespace="##targetNamespace" processContents="lax"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="LinkExtension">
+    <xs:sequence>
+      <xs:any minOccurs="1" maxOccurs="unbounded" namespace="##targetNamespace" processContents="lax"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:simpleType name="LinkType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="Download">
+        <xs:annotation>
+          <xs:documentation>
+            Download link for a Microsoft software product e.g. large setup or ISO file(s).
+          </xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Redemption">
+        <xs:annotation>
+          <xs:documentation>
+            Points to a Microsoft website to redeem the token provided.
+          </xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Install">
+        <xs:annotation>
+          <xs:documentation>
+            Points to a lightweight installer/setup bootstrapper
+          </xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="ResellerId">
+    <xs:restriction base="xs:string">
+      <xs:minLength value="0"/>
+      <xs:maxLength value="128"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="StoreId">
+    <xs:restriction base="xs:string">
+      <xs:minLength value="0"/>
+      <xs:maxLength value="128"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+</xs:schema>
